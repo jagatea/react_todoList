@@ -7,9 +7,12 @@ type Todo = {
   removed: boolean;
 };
 
+type Filter = 'all' | 'checked' | 'unchecked' | 'removed';
+
 export const App = () => {
   const [text, setText] = useState('');
   const [todos, setTodos] = useState<Todo[]>([]);
+  const [filter, setFilter] = useState<Filter>('all');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setText(e.target.value);
@@ -76,8 +79,40 @@ export const App = () => {
     });
   };
 
+  const handleSort = (filter: Filter) => {
+    setFilter(filter);
+  };
+
+  const filteredTodos = todos.filter((todo) => {
+    switch (filter) {
+      case 'all':
+        // 削除されていないもの
+        return !todo.removed;
+      case 'checked':
+        // 完了済 **かつ** 削除されていないもの
+        return todo.checked && !todo.removed;
+      case 'unchecked':
+        // 未完了 **かつ** 削除されていないもの
+        return !todo.checked && !todo.removed;
+      case 'removed':
+        // 削除済みのもの
+        return todo.removed;
+      default:
+        return todo;
+    }
+  });
+
   return (
     <div>
+      <select
+        defaultValue="all"
+        onChange={(e) => handleSort(e.target.value as Filter)}
+      >
+        <option value="all">すべてのタスク</option>
+        <option value="checked">完了したタスク</option>
+        <option value="unchecked">現在のタスク</option>
+        <option value="removed">ごみ箱</option>
+      </select>
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -87,16 +122,18 @@ export const App = () => {
         <input
           type='text'
           value={text}
+          disabled={filter === 'checked' || filter === 'removed'}
           onChange={(e) => handleChange(e)}
         />
         <input
           type='submit'
           value='追加'
+          disabled={filter === 'checked' || filter === 'removed'}
           onSubmit={handleSubmit}
         />
       </form>
       <ul>
-        {todos.map((todo) => {
+        {filteredTodos.map((todo) => {
           return (
             <li key={todo.id}>
               <input
