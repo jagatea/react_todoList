@@ -56,7 +56,7 @@ export const SideBar = (props: Props) => {
         {/* ヘッダーとアバター */}
         <DrawerHeader>
           <DrawerAvatar>
-            <Icon>cerate</Icon>
+            <Icon>create</Icon>
           </DrawerAvatar>
           {/* バージョン表示 */}
           <p>TODO v{pjson.version}</p>
