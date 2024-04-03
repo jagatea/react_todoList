@@ -4,6 +4,7 @@ import GlobalStyles from '@mui/material/GlobalStyles';
 import { indigo, pink } from '@mui/material/colors';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 
+import { QR } from './QR';
 import { ToolBar } from './ToolBar';
 import { SideBar } from './SideBar';
 import { TodoItem } from './TodoItem';
@@ -30,6 +31,7 @@ export const App = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [filter, setFilter] = useState<Filter>('all');
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [qrOpen, setQrOpen] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setText(e.target.value);
@@ -87,15 +89,21 @@ export const App = () => {
     setDrawerOpen((drawerOpen) => !drawerOpen);
   };
 
+  const handleToggleQR = () => {
+    setQrOpen((qrOpen) => !qrOpen);
+  };
+
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyles styles={{ body: { margin: 0, padding: 0 } }} />
       <ToolBar filter={filter} onToggleDrawer={handleToggleDrawer} />
       <SideBar
         drawerOpen={drawerOpen}
+        onToggleQR={handleToggleQR}
         onToggleDrawer={handleToggleDrawer}
         onSort={handleSort}
       />
+      <QR open={qrOpen} onClose={handleToggleQR} />
       <FormDialog
         text={text}
         onChange={handleChange}
