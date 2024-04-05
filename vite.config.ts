@@ -9,6 +9,7 @@ export default defineConfig({
     VitePWA({
       registerType: "autoUpdate",
       manifest: {
+        id: '/react_todoList/',
         // ユーザーに通常表示されるアプリ名
         name: 'Todo App (PWA)',
         // name を表示するのに十分なスペースがない場合に表示されるアプリ名
