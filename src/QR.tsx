@@ -17,7 +17,7 @@ type Props = {
 export const QR = (props: Props) => {
   return (
     <TodoBackdrop open={props.open} onClick={props.onClose}>
-      <QRCode value="https://sprout2000.github.io/todo" />
+      <QRCode value="https://jagatea.github.io/todo" />
     </TodoBackdrop>
   );
 }
