@@ -118,7 +118,7 @@ export const SideBar = (props: Props) => {
         <ListItem disablePadding>
           <ListItemButton
             aria-label="list-share"
-            onClick={() => props.onToggleQR}
+            onClick={props.onToggleQR}
           >
             <ListItemIcon>
               <Icon>share</Icon>
