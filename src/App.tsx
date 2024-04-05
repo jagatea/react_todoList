@@ -1,4 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
+import localforage from 'localforage';
 
 import GlobalStyles from '@mui/material/GlobalStyles';
 import { indigo, pink } from '@mui/material/colors';
@@ -110,6 +112,18 @@ export const App = () => {
   const handleToggleAlert = () => {
     setAlertOpen((alertOpen) => !alertOpen);
   };
+
+  // マウント時のみの実行
+  useEffect(() => {
+    localforage
+      .getItem('todo-20200101')
+      .then((values) => setTodos(values as Todo[]));
+  }, []);
+
+  // 更新の実行
+  useEffect(() => {
+    localforage.setItem('todo-20200101', todos);
+  }, [todos]);
 
   return (
     <ThemeProvider theme={theme}>
