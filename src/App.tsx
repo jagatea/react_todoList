@@ -9,6 +9,7 @@ import { ToolBar } from './ToolBar';
 import { SideBar } from './SideBar';
 import { TodoItem } from './TodoItem';
 import { FormDialog } from './FormDialog';
+import { AlertDialog } from './AlertDialog';
 import { ActionButton } from './ActionButton';
 
 const theme = createTheme({
@@ -32,15 +33,22 @@ export const App = () => {
   const [filter, setFilter] = useState<Filter>('all');
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [qrOpen, setQrOpen] = useState(false);
+  const [alertOpen, setAlertOpen] = useState(false);
+  const [dialogOpen, setDialogOpen] = useState(false);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     setText(e.target.value);
   };
 
   // Todosステートを更新する関数
   const handleSubmit = () => {
     // 何も入力されていなかったらリターン
-    if (!text) return;
+    if (!text) {
+      setDialogOpen((dialogOpen) => !dialogOpen);
+      return;
+    }
 
     // 新しいTodoを作成
     const newTodo: Todo = {
@@ -57,6 +65,7 @@ export const App = () => {
      **/
     setTodos((todos) => [newTodo, ...todos]);
     setText('');
+    setDialogOpen((dialogOpen) => !dialogOpen);
   };
 
   const handleTodo = <K extends keyof Todo, V extends Todo[K]>(
@@ -93,6 +102,15 @@ export const App = () => {
     setQrOpen((qrOpen) => !qrOpen);
   };
 
+  const handleToggleDialog = () => {
+    setDialogOpen((dialogOpen) => !dialogOpen);
+    setText('');
+  };
+
+  const handleToggleAlert = () => {
+    setAlertOpen((alertOpen) => !alertOpen);
+  };
+
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyles styles={{ body: { margin: 0, padding: 0 } }} />
@@ -106,11 +124,25 @@ export const App = () => {
       <QR open={qrOpen} onClose={handleToggleQR} />
       <FormDialog
         text={text}
+        dialogOpen={dialogOpen}
         onChange={handleChange}
         onSubmit={handleSubmit}
+        onToggleDialog={handleToggleDialog}
+      />
+      <AlertDialog
+        alertOpen={alertOpen}
+        onEmpty={handleEmpty}
+        onToggleAlert={handleToggleAlert}
       />
       <TodoItem todos={todos} filter={filter} onTodo={handleTodo} />
-      <ActionButton todos={todos} onEmpty={handleEmpty} />
+      <ActionButton
+        todos={todos}
+        filter={filter}
+        alertOpen={alertOpen}
+        dialogOpen={dialogOpen}
+        onToggleAlert={handleToggleAlert}
+        onToggleDialog={handleToggleDialog}
+      />
     </ThemeProvider>
   );
 };
