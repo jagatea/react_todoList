@@ -40,7 +40,7 @@ export const FormDialog = (props: Props) => {
             <Button
               aria-label="form-add"
               color="secondary"
-              onSubmit={props.onSubmit}
+              onClick={props.onSubmit}
             >
               追加
             </Button>

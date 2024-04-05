@@ -46,6 +46,7 @@ export const App = () => {
 
   // Todosステートを更新する関数
   const handleSubmit = () => {
+    console.log('hi');
     // 何も入力されていなかったらリターン
     if (!text) {
       setDialogOpen((dialogOpen) => !dialogOpen);

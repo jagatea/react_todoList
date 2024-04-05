@@ -19,7 +19,7 @@ const FabButton = styled(Fab)({
 });
 
 export const ActionButton = (props: Props) => {
-  const removed = props.todos.filter((todo) => todo.removed).length === 0;
+  const removed = props.todos.filter((todo) => todo.removed).length !== 0;
 
   return (
     <>
