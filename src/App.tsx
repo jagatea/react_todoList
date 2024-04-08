@@ -126,6 +126,9 @@ export const App = () => {
     localforage.setItem('todo-20200101', todos);
   }, [todos]);
 
+  // TEST
+  console.log(location);
+
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyles styles={{ body: { margin: 0, padding: 0 } }} />
