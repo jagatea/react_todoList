@@ -4,7 +4,7 @@ import { VitePWA } from 'vite-plugin-pwa';
 
 export default defineConfig({
   base: process.env.GITHUB_PAGES
-    ? '/react_todoList/'
+    ? 'react_todoList'
     : './',
   plugins: [
     react(),
